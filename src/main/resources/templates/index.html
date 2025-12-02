@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base}">
+<body>
+    <div th:fragment="content">
+        <div class="jumbotron bg-light p-5 rounded">
+            <h1 class="display-4">診療予約管理システム</h1>
+            <p class="lead">オンラインで簡単に診療予約ができます</p>
+            <hr class="my-4">
+            <p>患者の方はログインまたは新規登録を行ってください</p>
+            <a class="btn btn-primary btn-lg" href="/login" role="button">ログイン</a>
+            <a class="btn btn-secondary btn-lg" href="/register" role="button">新規登録</a>
+        </div>
+    </div>
+</body>
+</html>
+

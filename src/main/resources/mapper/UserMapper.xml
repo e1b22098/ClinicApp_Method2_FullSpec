@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unknownclinic.appointment.repository.UserMapper">
+
+    <resultMap id="UserResultMap" type="com.unknownclinic.appointment.domain.User">
+        <id property="id" column="id"/>
+        <result property="cardNumber" column="card_number"/>
+        <result property="birthday" column="birthday"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findById" resultMap="UserResultMap">
+        SELECT id, card_number, birthday, name, password, phone_number, created_at
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByCardNumber" resultMap="UserResultMap">
+        SELECT id, card_number, birthday, name, password, phone_number, created_at
+        FROM users
+        WHERE card_number = #{cardNumber}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (card_number, birthday, name, password, phone_number, created_at)
+        VALUES (#{cardNumber}, #{birthday}, #{name}, #{password}, #{phoneNumber}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE users
+        SET name = #{name},
+            phone_number = #{phoneNumber},
+            password = #{password}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
+

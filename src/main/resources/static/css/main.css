@@ -1,0 +1,54 @@
+/* カスタムCSS */
+body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.jumbotron {
+    margin-top: 2rem;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+.badge {
+    font-size: 0.9em;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.alert {
+    margin-top: 1rem;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.text-danger {
+    font-size: 0.875rem;
+}
+

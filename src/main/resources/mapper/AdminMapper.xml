@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unknownclinic.appointment.repository.AdminMapper">
+
+    <resultMap id="AdminResultMap" type="com.unknownclinic.appointment.domain.Admin">
+        <id property="id" column="id"/>
+        <result property="loginId" column="login_id"/>
+        <result property="password" column="password"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findByLoginId" resultMap="AdminResultMap">
+        SELECT id, login_id, password, created_at
+        FROM admins
+        WHERE login_id = #{loginId}
+    </select>
+
+</mapper>
+

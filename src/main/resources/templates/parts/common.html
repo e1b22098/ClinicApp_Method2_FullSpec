@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="/">診療予約管理システム</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">ホーム</a>
+                        </li>
+                        <li class="nav-item" th:if="${#authentication != null && #authentication.isAuthenticated()}">
+                            <a class="nav-link" href="/appointments">予約</a>
+                        </li>
+                        <li class="nav-item" th:if="${#authentication != null && #authentication.isAuthenticated()}">
+                            <a class="nav-link" href="/mypage">マイページ</a>
+                        </li>
+                        <li class="nav-item" th:if="${#authentication == null || !#authentication.isAuthenticated()}">
+                            <a class="nav-link" href="/login">ログイン</a>
+                        </li>
+                        <li class="nav-item" th:if="${#authentication == null || !#authentication.isAuthenticated()}">
+                            <a class="nav-link" href="/register">新規登録</a>
+                        </li>
+                        <li class="nav-item" th:if="${#authentication != null && #authentication.isAuthenticated()}">
+                            <form th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-link nav-link">ログアウト</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <footer th:fragment="footer" class="bg-light mt-5 py-4">
+        <div class="container text-center">
+            <p class="text-muted mb-0">&copy; 2024 診療予約管理システム</p>
+        </div>
+    </footer>
+</body>
+</html>
+

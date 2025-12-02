@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base}">
+<body>
+    <div th:fragment="content">
+        <h2 class="mb-4">予約作成</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/appointments}" th:object="${bookingFormDto}" method="post">
+                            <div class="mb-3">
+                                <label for="businessDate" class="form-label">予約日 <span class="text-danger">*</span></label>
+                                <select class="form-select" id="businessDate" th:field="*{businessDate}" required>
+                                    <option value="">選択してください</option>
+                                    <option th:each="day : ${businessDays}" 
+                                            th:value="${day.businessDate}" 
+                                            th:text="${#temporals.format(day.businessDate, 'yyyy年MM月dd日')}">
+                                    </option>
+                                </select>
+                                <div th:if="${#fields.hasErrors('businessDate')}" class="text-danger">
+                                    <span th:errors="*{businessDate}"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="timeSlotId" class="form-label">時間枠 <span class="text-danger">*</span></label>
+                                <select class="form-select" id="timeSlotId" th:field="*{timeSlotId}" required>
+                                    <option value="">選択してください</option>
+                                    <option th:each="slot : ${timeSlots}" 
+                                            th:value="${slot.id}" 
+                                            th:text="${#temporals.format(slot.startTime, 'HH:mm')} - ${#temporals.format(slot.endTime, 'HH:mm')}">
+                                    </option>
+                                </select>
+                                <div th:if="${#fields.hasErrors('timeSlotId')}" class="text-danger">
+                                    <span th:errors="*{timeSlotId}"></span>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">予約する</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>患者情報</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>氏名:</strong> <span th:text="${user.name}"></span></p>
+                        <p><strong>診察券番号:</strong> <span th:text="${user.cardNumber}"></span></p>
+                        <p><strong>電話番号:</strong> <span th:text="${user.phoneNumber}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

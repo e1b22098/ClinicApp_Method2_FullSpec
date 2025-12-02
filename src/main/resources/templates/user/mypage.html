@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base}">
+<body>
+    <div th:fragment="content">
+        <h2 class="mb-4">マイページ</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>患者情報</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>氏名:</strong> <span th:text="${user.name}"></span></p>
+                        <p><strong>診察券番号:</strong> <span th:text="${user.cardNumber}"></span></p>
+                        <p><strong>生年月日:</strong> <span th:text="${#temporals.format(user.birthday, 'yyyy年MM月dd日')}"></span></p>
+                        <p><strong>電話番号:</strong> <span th:text="${user.phoneNumber}"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>予約一覧</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${bookings == null || bookings.isEmpty()}" class="alert alert-info">
+                            予約がありません
+                        </div>
+                        <table th:if="${bookings != null && !bookings.isEmpty()}" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>予約日</th>
+                                    <th>時間</th>
+                                    <th>ステータス</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="booking : ${bookings}">
+                                    <td th:text="${#temporals.format(booking.businessDate, 'yyyy年MM月dd日')}"></td>
+                                    <td th:text="${#temporals.format(booking.startTime, 'HH:mm')} - ${#temporals.format(booking.endTime, 'HH:mm')}"></td>
+                                    <td>
+                                        <span th:if="${booking.status == 'PENDING'}" class="badge bg-warning">予約中</span>
+                                        <span th:if="${booking.status == 'CONFIRMED'}" class="badge bg-success">確定</span>
+                                    </td>
+                                    <td>
+                                        <form th:action="@{/bookings/{id}/cancel(id=${booking.id})}" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger" 
+                                                    onclick="return confirm('本当にキャンセルしますか？')">キャンセル</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

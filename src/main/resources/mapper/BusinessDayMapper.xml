@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unknownclinic.appointment.repository.BusinessDayMapper">
+
+    <resultMap id="BusinessDayResultMap" type="com.unknownclinic.appointment.domain.BusinessDay">
+        <id property="id" column="id"/>
+        <result property="businessDate" column="business_date"/>
+        <result property="isActive" column="is_active"/>
+        <result property="businessType" column="business_type"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findAllActive" resultMap="BusinessDayResultMap">
+        SELECT id, business_date, is_active, business_type, created_at
+        FROM business_days
+        WHERE is_active = TRUE
+        ORDER BY business_date ASC
+    </select>
+
+    <select id="findById" resultMap="BusinessDayResultMap">
+        SELECT id, business_date, is_active, business_type, created_at
+        FROM business_days
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByDate" resultMap="BusinessDayResultMap">
+        SELECT id, business_date, is_active, business_type, created_at
+        FROM business_days
+        WHERE business_date = #{date}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO business_days (business_date, is_active, business_type, created_at)
+        VALUES (#{businessDate}, #{isActive}, #{businessType}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE business_days
+        SET is_active = #{isActive},
+            business_type = #{businessType}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM business_days
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
+
