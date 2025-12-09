@@ -30,3 +30,8 @@ Thumbs.db
 # Application
 application-local.properties
 
+# SonarQube / Jacoco
+.sonar/
+sonar-project.properties
+jacoco.exec
+

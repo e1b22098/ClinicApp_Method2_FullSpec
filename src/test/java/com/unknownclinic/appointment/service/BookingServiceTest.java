@@ -79,8 +79,14 @@ class BookingServiceTest {
         savedBooking.setTimeSlotId(bookingFormDto.getTimeSlotId());
         savedBooking.setStatus(Booking.Status.PENDING);
         
-        when(bookingMapper.findById(anyLong())).thenReturn(savedBooking);
-        doNothing().when(bookingMapper).insert(any(Booking.class));
+        // insertの後にidが設定されるようにする（MyBatisのuseGeneratedKeysをシミュレート）
+        doAnswer(invocation -> {
+            Booking booking = invocation.getArgument(0);
+            booking.setId(1L);
+            return null;
+        }).when(bookingMapper).insert(any(Booking.class));
+        
+        when(bookingMapper.findById(1L)).thenReturn(savedBooking);
 
         // テスト実行
         Booking result = bookingService.createBooking(userId, bookingFormDto);
@@ -88,7 +94,9 @@ class BookingServiceTest {
         // 検証
         assertNotNull(result);
         assertEquals(userId, result.getUserId());
+        assertEquals(1L, result.getId());
         verify(bookingMapper, times(1)).insert(any(Booking.class));
+        verify(bookingMapper, times(1)).findById(1L);
     }
 
     @Test
