@@ -83,7 +83,7 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO bookings (user_id, business_date, time_slot_id, status, created_at, updated_at)
-        VALUES (#{userId}, #{businessDate}, #{timeSlotId}, #{status}, NOW(), NOW())
+        VALUES (#{userId}, #{businessDate}, #{timeSlotId}, #{status, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, NOW(), NOW())
     </insert>
 
     <update id="update">
