@@ -26,8 +26,13 @@ public class AdminController {
     @Autowired
     private BusinessDayService businessDayService;
 
+    @GetMapping("")
+    public String adminRoot() {
+        return "redirect:/admin/login";
+    }
+
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login() {
         return "admin/login";
     }
 

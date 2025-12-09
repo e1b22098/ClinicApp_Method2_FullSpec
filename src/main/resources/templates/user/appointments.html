@@ -27,7 +27,7 @@
                                     <option value="">選択してください</option>
                                     <option th:each="slot : ${timeSlots}" 
                                             th:value="${slot.id}" 
-                                            th:text="${#temporals.format(slot.startTime, 'HH:mm')} - ${#temporals.format(slot.endTime, 'HH:mm')}">
+                                            th:text="${#temporals.format(slot.startTime, 'HH:mm')} + ' - ' + ${#temporals.format(slot.endTime, 'HH:mm')}">
                                     </option>
                                 </select>
                                 <div th:if="${#fields.hasErrors('timeSlotId')}" class="text-danger">

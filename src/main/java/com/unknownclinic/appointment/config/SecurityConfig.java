@@ -5,6 +5,7 @@ import com.unknownclinic.appointment.service.CustomAdminDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,28 +28,35 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/register", "/register/**", "/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
+            .securityMatcher(request -> !request.getRequestURI().startsWith("/admin"))
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers(
+                    "/login",
+                    "/logout",
+                    "/register",
+                    "/register/**",
+                    "/",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**",
+                    "/error")
+                .permitAll()
+                .anyRequest().authenticated())
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/appointments", true)
-                .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .permitAll()
-            )
+                .defaultSuccessUrl("/appointments", true)
+                .failureUrl("/login?error"))
             .logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .permitAll()
-            )
-            .userDetailsService(userDetailsService);
+                .logoutSuccessUrl("/login?logout"))
+            .userDetailsService(userDetailsService)
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/login", "/register"));
 
         return http.build();
     }
